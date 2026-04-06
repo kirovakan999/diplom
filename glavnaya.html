@@ -3,17 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="description" content="Магазин автозвука: динамики, усилители, сабвуферы. Профессиональная установка и тюнинг автоакустики.">
-    <meta name="keywords" content="автозвук, динамики, усилители, сабвуферы, установка автоакустики">
+    <meta name="description" content="Магазин автозвука: усилители, головные устройства, сабвуферы, динамики, шумоизоляция, провода. Профессиональная установка.">
+    <meta name="keywords" content="автозвук, усилители, головные устройства, сабвуферы, динамики, шумоизоляция, провода">
     <meta name="author" content="CarAudioPro">
-    <meta property="og:title" content="CarAudioPro | Автозвук и установка">
-    <meta property="og:description" content="Лучшие решения для звука в автомобиле. Новинки, каталог, профессиональный монтаж.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630?text=CarAudioPro">
-    <meta property="og:url" content="https://caraudiopro.ru">
-    <meta name="twitter:card" content="summary_large_image">
     <title>CarAudioPro | Автозвук и установка</title>
     <link rel="stylesheet" href="glavnaya.css">
+    <style>
+        /* Дополнительные стили для модального окна, фильтров и страниц */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .cart-modal.active { display: flex; }
+        .cart-content {
+            background: #1a1a1a;
+            width: 90%;
+            max-width: 550px;
+            border-radius: 24px;
+            padding: 1.5rem;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid #f97316;
+        }
+        .cart-content h3 { color: #f97316; margin-bottom: 1rem; }
+        .cart-items { list-style: none; margin: 1rem 0; }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #333;
+        }
+        .cart-item-info { flex: 1; }
+        .cart-item-title { font-weight: 600; margin-bottom: 0.2rem; }
+        .cart-item-price { font-size: 0.85rem; color: #f97316; }
+        .cart-item-actions { display: flex; align-items: center; gap: 0.5rem; }
+        .cart-item-actions button {
+            background: #333;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+        }
+        .cart-item-actions button:hover { background: #f97316; }
+        .cart-item-actions .remove-btn { background: #cc0000; }
+        .cart-total {
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin: 1rem 0;
+            padding-top: 1rem;
+            border-top: 2px solid #333;
+            color: #f97316;
+        }
+        .cart-buttons { display: flex; gap: 1rem; margin-top: 1rem; }
+        .cart-buttons button {
+            flex: 1;
+            padding: 0.7rem;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-clear { background: #333; color: white; }
+        .btn-clear:hover { background: #cc0000; }
+        .btn-close { background: #f97316; color: white; }
+        .btn-close:hover { background: #ea580c; }
+        
+        /* Фильтры категорий */
+        .category-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #333;
+        }
+        .filter-btn {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 0.6rem 1.3rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #ccc;
+        }
+        .filter-btn:hover {
+            background: #2a2a2a;
+            border-color: #f97316;
+        }
+        .filter-btn.active {
+            background: #f97316;
+            color: white;
+            border-color: #f97316;
+        }
+        
+        /* Страницы */
+        .page { display: none; }
+        .page.active { display: block; }
+        
+        /* Установка */
+        .install-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .service-card {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #333;
+            transition: all 0.2s;
+        }
+        .service-card:hover { border-color: #f97316; transform: translateY(-3px); }
+        .service-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .service-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: #f97316; }
+        .service-price { color: #f97316; font-weight: 600; margin: 0.5rem 0; }
+        .service-desc { color: #888; font-size: 0.9rem; }
+        .contact-form {
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid #333;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            background: #2a2a2a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+        }
+        .contact-form textarea { min-height: 100px; resize: vertical; }
+        .contact-form button {
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #f97316;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 500;
+            z-index: 1001;
+            animation: fadeInOut 2s ease;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(50px); }
+            15% { opacity: 1; transform: translateX(0); }
+            85% { opacity: 1; }
+            100% { opacity: 0; transform: translateX(50px); }
+        }
+        .products-count {
+            text-align: right;
+            margin-bottom: 1rem;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .category-filters { justify-content: center; }
+            .filter-btn { padding: 0.4rem 1rem; font-size: 0.8rem; }
+        }
+    </style>
 </head>
 <body>
 
@@ -22,145 +197,318 @@
         <div class="navbar">
             <div class="logo">🎵 CARAUDIO PRO</div>
             <div class="nav-links">
-                <a href="#">Главная</a>
-                <a href="#">Каталог</a>
-                <a href="#">Установка</a>
-                <a href="#">Контакты</a>
-                <div class="cart-icon">🛒 Корзина</div>
+                <a href="#" data-page="home" class="nav-link active-link">Главная</a>
+                <a href="#" data-page="catalog" class="nav-link">Каталог</a>
+                <a href="#" data-page="install" class="nav-link">Установка</a>
+                <a href="#" data-page="contacts" class="nav-link">Контакты</a>
+                <div class="cart-icon" id="cartIcon">🛒 Корзина <span class="cart-count" id="cartCount">0</span></div>
             </div>
         </div>
     </div>
 </header>
 
 <main>
-    <!-- HERO блок -->
-    <div class="hero">
+    <!-- Главная страница -->
+    <div id="homePage" class="page active">
+        <div class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-badge">🔥 Официальный дилер</span>
+                    <h1>Звук, который заставляет сердце биться чаще</h1>
+                    <p>Усилители, головные устройства, сабвуферы, динамики, шумоизоляция и провода — всё для идеального звука в автомобиле.</p>
+                </div>
+            </div>
+        </div>
         <div class="container">
-            <div class="hero-content">
-                <span class="hero-badge">🔥 Официальный дилер</span>
-                <h1>Звук, который заставляет сердце биться чаще</h1>
-                <p>Динамики, усилители, сабвуферы и профессиональная установка. Лучший автозвук для твоего автомобиля.</p>
+            <section>
+                <h2 class="section-title">✨ Новинки сезона</h2>
+                <div class="products-grid" id="newProductsGrid"></div>
+            </section>
+            <section>
+                <div class="bio-block">
+                    <h2 class="section-title">📖 История автозвука</h2>
+                    <div class="bio-text">
+                        <p>История автомобильного звука началась в 1930-х годах, когда первые радиоприемники стали устанавливать в автомобили. 
+                        Настоящая эра автозвука стартовала в 70-х с появлением кассетных магнитол. В 80-х мир увидел первые мощные усилители 
+                        и сабвуферы, а 90-е стали золотым десятилетием соревнований по звуковому давлению (SPL).</p>
+                        <p>С каждым годом технологии шагали вперед: цифровые процессоры, волоконно-оптические передачи сигнала, неодимовые магниты — 
+                        всё это сделало автозвук настоящим искусством. Более 3000 довольных клиентов, работаем по всей России.</p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2 class="section-title">🏆 Почему выбирают нас</h2>
+                <div class="advantages">
+                    <div class="adv-item"><div class="adv-icon">🔊</div><div class="adv-title">Топ-бренды</div><div class="adv-desc">Hertz, Audison, JL Audio, Morel, Pioneer, Alpine, Sony, Kenwood, Kicx, Focal, STP, Daxx</div></div>
+                    <div class="adv-item"><div class="adv-icon">🛠️</div><div class="adv-title">Проф. установка</div><div class="adv-desc">Сертифицированные мастера, опыт от 8 лет</div></div>
+                    <div class="adv-item"><div class="adv-icon">📦</div><div class="adv-title">Гарантия</div><div class="adv-desc">12 месяцев на оборудование и работы</div></div>
+                    <div class="adv-item"><div class="adv-icon">🚚</div><div class="adv-title">Доставка по РФ</div><div class="adv-desc">Бесплатно от 5000 ₽</div></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Страница Каталога -->
+    <div id="catalogPage" class="page">
+        <div class="container">
+            <div style="padding: 2rem 0;">
+                <h2 class="section-title">📚 Каталог автозвука</h2>
+                <div class="category-filters">
+                    <button class="filter-btn active" data-category="all">Все товары</button>
+                    <button class="filter-btn" data-category="amplifiers">🔊 Усилители</button>
+                    <button class="filter-btn" data-category="headunits">📻 Головные устройства</button>
+                    <button class="filter-btn" data-category="subwoofers">🥁 Сабвуферы</button>
+                    <button class="filter-btn" data-category="speakers">🎵 Динамики</button>
+                    <button class="filter-btn" data-category="sounddeadening">🔇 Шумоизоляция</button>
+                    <button class="filter-btn" data-category="wires">🔌 Провода</button>
+                </div>
+                <div class="products-count" id="productsCount">Показано: 0 товаров</div>
+                <div class="products-grid" id="catalogGrid"></div>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <!-- СЕКЦИЯ НОВИНКИ -->
-        <section>
-            <h2 class="section-title">✨ Новинки сезона</h2>
-            <div class="products-grid">
-                <!-- Карточка 1 - Компонентная акустика -->
-                <div class="product-card">
-                    <div class="product-img">🔊</div>
-                    <div class="product-info">
-                        <div class="product-title-wrapper">
-                            <div class="product-title">Компонентная акустика</div>
-                            <div class="product-brand">Hertz MPK 165.3</div>
-                        </div>
-                        <div class="product-price">18 990 ₽</div>
-                        <div class="btn-dummy">В корзину</div>
-                    </div>
+    <!-- Страница Установки -->
+    <div id="installPage" class="page">
+        <div class="container">
+            <div style="padding: 2rem 0;">
+                <h2 class="section-title">🔧 Услуги по установке</h2>
+                <p style="margin-bottom: 1rem;">Профессиональный монтаж акустики, шумоизоляция, настройка DSP. Работаем с любыми автомобилями.</p>
+                <div class="install-grid">
+                    <div class="service-card"><div class="service-icon">🔊</div><div class="service-title">Установка динамиков</div><div class="service-price">от 3 500 ₽</div><div class="service-desc">Компонентная и коаксиальная акустика</div></div>
+                    <div class="service-card"><div class="service-icon">⚡</div><div class="service-title">Установка усилителя</div><div class="service-price">от 4 000 ₽</div><div class="service-desc">Прокладка кабелей, настройка</div></div>
+                    <div class="service-card"><div class="service-icon">🥁</div><div class="service-title">Установка сабвуфера</div><div class="service-price">от 3 000 ₽</div><div class="service-desc">Монтаж корпуса, подключение</div></div>
+                    <div class="service-card"><div class="service-icon">🔇</div><div class="service-title">Шумоизоляция</div><div class="service-price">от 7 000 ₽</div><div class="service-desc">Двери, багажник, арки</div></div>
+                    <div class="service-card"><div class="service-icon">🎛️</div><div class="service-title">Настройка DSP</div><div class="service-price">от 2 500 ₽</div><div class="service-desc">Эквалайзер, временные задержки</div></div>
+                    <div class="service-card"><div class="service-icon">📻</div><div class="service-title">Установка ГУ</div><div class="service-price">от 2 000 ₽</div><div class="service-desc">Магнитолы, головные устройства</div></div>
                 </div>
-
-                <!-- Карточка 2 - Усилитель -->
-                <div class="product-card">
-                    <div class="product-img">⚡</div>
-                    <div class="product-info">
-                        <div class="product-title-wrapper">
-                            <div class="product-title">Усилитель</div>
-                            <div class="product-brand">Audison SR 4.300</div>
-                        </div>
-                        <div class="product-price">27 990 ₽</div>
-                        <div class="btn-dummy">В корзину</div>
-                    </div>
+                <div class="contact-form">
+                    <h3 style="color: #f97316; margin-bottom: 1rem;">📝 Запись на установку</h3>
+                    <input type="text" placeholder="Ваше имя" id="userName">
+                    <input type="tel" placeholder="Телефон" id="userPhone">
+                    <textarea placeholder="Опишите, что нужно установить" id="userMessage"></textarea>
+                    <button onclick="sendInstallRequest()">Отправить заявку</button>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <!-- Карточка 3 - Сабвуфер -->
-                <div class="product-card">
-                    <div class="product-img">🥁</div>
-                    <div class="product-info">
-                        <div class="product-title-wrapper">
-                            <div class="product-title">Сабвуфер</div>
-                            <div class="product-brand">JL Audio 12W3v3-4</div>
-                        </div>
-                        <div class="product-price">35 990 ₽</div>
-                        <div class="btn-dummy">В корзину</div>
+    <!-- Страница Контактов -->
+    <div id="contactsPage" class="page">
+        <div class="container">
+            <div style="padding: 2rem 0;">
+                <h2 class="section-title">📍 Контакты</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                    <div style="background: #1a1a1a; border-radius: 20px; padding: 1.5rem; border: 1px solid #333;">
+                        <h3 style="color: #f97316; margin-bottom: 1rem;">📞 Свяжитесь с нами</h3>
+                        <p><strong>Телефон:</strong> 8 (800) 555-35-35</p>
+                        <p><strong>WhatsApp:</strong> +7 (999) 123-45-67</p>
+                        <p><strong>Email:</strong> info@caraudiopro.ru</p>
+                        <p><strong>Режим работы:</strong> Пн-Вс 10:00 - 20:00</p>
                     </div>
-                </div>
-
-                <!-- Карточка 4 - DSP процессор -->
-                <div class="product-card">
-                    <div class="product-img">🎛️</div>
-                    <div class="product-info">
-                        <div class="product-title-wrapper">
-                            <div class="product-title">DSP-процессор</div>
-                            <div class="product-brand">Audison bit One</div>
-                        </div>
-                        <div class="product-price">42 990 ₽</div>
-                        <div class="btn-dummy">В корзину</div>
+                    <div style="background: #1a1a1a; border-radius: 20px; padding: 1.5rem; border: 1px solid #333;">
+                        <h3 style="color: #f97316; margin-bottom: 1rem;">📍 Адрес</h3>
+                        <p>г. Москва, ул. Автозвуковая, 12</p>
+                        <p>м. Автозаводская, выход №3, 5 минут пешком</p>
+                        <p>Есть бесплатная парковка для клиентов</p>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <!-- БИОГРАФИЯ / ПРОИСХОЖДЕНИЕ АВТОЗВУКА -->
-        <section>
-            <div class="bio-block">
-                <h2 class="section-title">📖 История автозвука</h2>
-                <div class="bio-text">
-                    <p>История автомобильного звука началась в 1930-х годах, когда первые радиоприемники стали устанавливать в автомобили. 
-                    Настоящая эра автозвука стартовала в 70-х с появлением кассетных магнитол. В 80-х мир увидел первые мощные усилители 
-                    и сабвуферы, а 90-е стали золотым десятилетием соревнований по звуковому давлению (SPL).</p>
-                    <p>С каждым годом технологии шагали вперед: цифровые процессоры, волоконно-оптические передачи сигнала, неодимовые магниты — 
-                    всё это сделало автозвук настоящим искусством. Сегодня миллионы автолюбителей по всему миру улучшают акустику в своих машинах, 
-                    чтобы получать максимум эмоций от любимых треков.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ПРЕИМУЩЕСТВА КОМПАНИИ -->
-        <section>
-            <h2 class="section-title">🏆 Почему выбирают нас</h2>
-            <div class="advantages">
-                <div class="adv-item">
-                    <div class="adv-icon">🔊</div>
-                    <div class="adv-title">Только топ-бренды</div>
-                    <div class="adv-desc">Hertz, Audison, JL Audio, Morel, Helix</div>
-                </div>
-                <div class="adv-item">
-                    <div class="adv-icon">🛠️</div>
-                    <div class="adv-title">Профессиональная установка</div>
-                    <div class="adv-desc">Сертифицированные мастера, опыт от 8 лет</div>
-                </div>
-                <div class="adv-item">
-                    <div class="adv-icon">📦</div>
-                    <div class="adv-title">Гарантия 12 месяцев</div>
-                    <div class="adv-desc">На оборудование и монтажные работы</div>
-                </div>
-                <div class="adv-item">
-                    <div class="adv-icon">🎧</div>
-                    <div class="adv-title">Тест-драйв звука</div>
-                    <div class="adv-desc">Студия прослушивания в авто перед покупкой</div>
-                </div>
-            </div>
-
-            <div class="company-quote">
-                <p style="font-weight: 600; font-size: 1.05rem;">🚗 <strong>О компании «CarAudioPro»</strong></p>
-                <p style="margin-top: 8px;">Мы не просто продаем автозвук — мы создаём акустические системы под ваш стиль и бюджет. 
-                От подбора компонентов до финальной настройки DSP. Занимаемся продажей динамиков, усилителей, сабвуферов, 
-                а также шумоизоляцией и тюнингом акустики любой сложности. Более 3000 довольных клиентов, работаем по всей России.</p>
-            </div>
-        </section>
+        </div>
     </div>
 </main>
 
 <footer class="footer">
     <div class="container">
         <p>© 2025 CarAudioPro — Магазин автозвука и профессиональная установка</p>
-        <p>📞 8 (800) 555-35-35 | ✉️ hello@caraudiopro.ru | 📍 г. Москва, ул. Автозвуковая, 12</p>
-        <p style="margin-top: 12px; font-size: 0.85rem;">Работаем с 10:00 до 20:00 без выходных</p>
+        <p>📞 8 (800) 555-35-35 | ✉️ info@caraudiopro.ru | 📍 г. Москва, ул. Автозвуковая, 12</p>
     </div>
 </footer>
 
+<div id="cartModal" class="cart-modal">
+    <div class="cart-content">
+        <h3>🛒 Моя корзина</h3>
+        <ul id="cartItemsList" class="cart-items"></ul>
+        <div class="cart-total" id="cartTotal">Итого: 0 ₽</div>
+        <div class="cart-buttons">
+            <button class="btn-clear" id="clearCartBtn">Очистить</button>
+            <button class="btn-close" id="closeCartBtn">Закрыть</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- ТОВАРЫ (30 товаров с категориями) ----------
+    const products = [
+        // Усилители (amplifiers) - 6 шт
+        { id: 1, name: "Усилитель Audison SR 4.300", brand: "Audison", price: 27990, category: "amplifiers", img: "🔊", specs: "4 x 75 Вт, Class AB", isNew: true },
+        { id: 2, name: "Усилитель Helix M FOUR DSP", brand: "Helix", price: 49990, category: "amplifiers", img: "🔊", specs: "4 x 120 Вт, DSP", isNew: true },
+        { id: 3, name: "Усилитель Hertz HCP 4D", brand: "Hertz", price: 18990, category: "amplifiers", img: "🔊", specs: "4 x 80 Вт, Class D", isNew: false },
+        { id: 4, name: "Моноблок JL Audio JD1000/1", brand: "JL Audio", price: 35990, category: "amplifiers", img: "🔊", specs: "1000 Вт, Class D", isNew: false },
+        { id: 5, name: "Усилитель Alpine S2-A55V", brand: "Alpine", price: 15990, category: "amplifiers", img: "🔊", specs: "4 x 50 Вт", isNew: false },
+        { id: 6, name: "Усилитель Kicx STM 4.300", brand: "Kicx", price: 12990, category: "amplifiers", img: "🔊", specs: "4 x 80 Вт", isNew: false },
+        
+        // Головные устройства (headunits) - 5 шт
+        { id: 7, name: "Магнитола Pioneer MVH-S520BT", brand: "Pioneer", price: 14990, category: "headunits", img: "📻", specs: "Bluetooth, USB, 1 DIN", isNew: true },
+        { id: 8, name: "ГУ Sony XAV-AX5650", brand: "Sony", price: 39990, category: "headunits", img: "📻", specs: "CarPlay, Android Auto, 6.95''", isNew: true },
+        { id: 9, name: "Магнитола Kenwood DMX8021DABS", brand: "Kenwood", price: 54990, category: "headunits", img: "📻", specs: "CarPlay, DAB+, 6.8''", isNew: false },
+        { id: 10, name: "ГУ Alpine iLX-W690D", brand: "Alpine", price: 47990, category: "headunits", img: "📻", specs: "CarPlay, Android Auto, 7''", isNew: false },
+        { id: 11, name: "Магнитола JVC KW-M560BT", brand: "JVC", price: 24990, category: "headunits", img: "📻", specs: "CarPlay, 6.8''", isNew: false },
+        
+        // Сабвуферы (subwoofers) - 5 шт
+        { id: 12, name: "Сабвуфер JL Audio 12W3v3-4", brand: "JL Audio", price: 35990, category: "subwoofers", img: "🥁", specs: "12'', 500 Вт, 4 Ом", isNew: true },
+        { id: 13, name: "Сабвуфер Kicx ICQ 301BA", brand: "Kicx", price: 12990, category: "subwoofers", img: "🥁", specs: "12'', 300 Вт, активный", isNew: false },
+        { id: 14, name: "Сабвуфер Hertz MPS 250 S4", brand: "Hertz", price: 21990, category: "subwoofers", img: "🥁", specs: "10'', 400 Вт, 4 Ом", isNew: false },
+        { id: 15, name: "Сабвуфер Alpine SWE-815", brand: "Alpine", price: 18990, category: "subwoofers", img: "🥁", specs: "8'', 150 Вт, активный", isNew: false },
+        { id: 16, name: "Сабвуфер Pioneer TS-WX130DA", brand: "Pioneer", price: 15990, category: "subwoofers", img: "🥁", specs: "8'', 160 Вт, активный", isNew: false },
+        
+        // Динамики (speakers) - 6 шт
+        { id: 17, name: "Компонентная акустика Hertz MPK 165.3", brand: "Hertz", price: 18990, category: "speakers", img: "🎵", specs: "16.5 см, 100 Вт", isNew: true },
+        { id: 18, name: "Коаксиальная акустика Morel Maximo 6", brand: "Morel", price: 12990, category: "speakers", img: "🎵", specs: "16.5 см, 80 Вт", isNew: false },
+        { id: 19, name: "Компонентная акустика Focal ISU 165", brand: "Focal", price: 24990, category: "speakers", img: "🎵", specs: "16.5 см, 120 Вт", isNew: false },
+        { id: 20, name: "Широкополосные динамики JL Audio C2-650", brand: "JL Audio", price: 15990, category: "speakers", img: "🎵", specs: "16.5 см, 60 Вт", isNew: false },
+        { id: 21, name: "Пищалки Audison AP 1", brand: "Audison", price: 5990, category: "speakers", img: "🎵", specs: "1'', 50 Вт, шелк", isNew: false },
+        { id: 22, name: "Динамики Pioneer TS-G1320F", brand: "Pioneer", price: 3990, category: "speakers", img: "🎵", specs: "13 см, 200 Вт", isNew: false },
+        
+        // Шумоизоляция (sounddeadening) - 4 шт
+        { id: 23, name: "Шумоизоляция STP Silver", brand: "STP", price: 3490, category: "sounddeadening", img: "🔇", specs: "Лист 0.5м x 0.75м, 2 мм", isNew: true },
+        { id: 24, name: "Шумоизоляция Silent Coat 2mm", brand: "Silent Coat", price: 2990, category: "sounddeadening", img: "🔇", specs: "Лист 0.5м x 0.75м, 2 мм", isNew: false },
+        { id: 25, name: "Вибропоглотитель Shumoff M2", brand: "Shumoff", price: 2490, category: "sounddeadening", img: "🔇", specs: "Лист 0.5м x 0.7м, 2 мм", isNew: false },
+        { id: 26, name: "Шумоизоляция комплект на 4 двери", brand: "STP", price: 12990, category: "sounddeadening", img: "🔇", specs: "4 листа + ролик", isNew: false },
+        
+        // Провода (wires) - 4 шт
+        { id: 27, name: "Акустический кабель 2x2.5 мм² (10м)", brand: "Daxx", price: 1890, category: "wires", img: "🔌", specs: "10 м, OFC медь", isNew: false },
+        { id: 28, name: "Силовой кабель 4 GA (10м)", brand: "Daxx", price: 2990, category: "wires", img: "🔌", specs: "10 м, 25 мм², OFC", isNew: false },
+        { id: 29, name: "RCA кабель 5м (2 канала)", brand: "Audison", price: 1490, category: "wires", img: "🔌", specs: "5 м, экранированный", isNew: false },
+        { id: 30, name: "Комплект проводов для усилителя", brand: "Kicx", price: 3990, category: "wires", img: "🔌", specs: "4 GA, 5м + RCA", isNew: false }
+    ];
+    
+    const newProducts = products.filter(p => p.isNew === true);
+    
+    // ---------- КОРЗИНА ----------
+    let cart = JSON.parse(localStorage.getItem('carAudioCart') || '[]');
+    
+    function saveCart() { localStorage.setItem('carAudioCart', JSON.stringify(cart)); updateCartUI(); }
+    function updateCartUI() {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').innerText = totalItems;
+        renderCartModal();
+    }
+    
+    function addToCart(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        const existing = cart.find(item => item.id === productId);
+        if (existing) existing.quantity += 1;
+        else cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
+        saveCart();
+        showToast(`${product.name} добавлен в корзину`);
+    }
+    
+    function removeFromCart(productId) { cart = cart.filter(item => item.id !== productId); saveCart(); }
+    function updateQuantity(productId, delta) {
+        const idx = cart.findIndex(item => item.id === productId);
+        if (idx !== -1) {
+            const newQty = cart[idx].quantity + delta;
+            if (newQty <= 0) cart.splice(idx, 1);
+            else cart[idx].quantity = newQty;
+            saveCart();
+        }
+    }
+    function clearCart() { cart = []; saveCart(); showToast("Корзина очищена"); }
+    
+    function renderCartModal() {
+        const container = document.getElementById('cartItemsList');
+        const totalSpan = document.getElementById('cartTotal');
+        if (!container) return;
+        if (cart.length === 0) { container.innerHTML = '<li style="color:#888;text-align:center;">Корзина пуста</li>'; totalSpan.innerText = "Итого: 0 ₽"; return; }
+        let total = 0;
+        container.innerHTML = cart.map(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            return `<li class="cart-item"><div class="cart-item-info"><div class="cart-item-title">${item.name}</div><div class="cart-item-price">${item.price.toLocaleString()} ₽ × ${item.quantity} = ${itemTotal.toLocaleString()} ₽</div></div><div class="cart-item-actions"><button class="qty-minus" data-id="${item.id}">-</button><span>${item.quantity}</span><button class="qty-plus" data-id="${item.id}">+</button><button class="remove-btn" data-id="${item.id}">✖</button></div></li>`;
+        }).join('');
+        totalSpan.innerText = `Итого: ${total.toLocaleString()} ₽`;
+        document.querySelectorAll('.qty-minus').forEach(btn => btn.addEventListener('click', () => updateQuantity(parseInt(btn.dataset.id), -1)));
+        document.querySelectorAll('.qty-plus').forEach(btn => btn.addEventListener('click', () => updateQuantity(parseInt(btn.dataset.id), 1)));
+        document.querySelectorAll('.remove-btn').forEach(btn => btn.addEventListener('click', () => removeFromCart(parseInt(btn.dataset.id))));
+    }
+    
+    function showToast(msg) {
+        const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+    
+    // ---------- ОТРИСОВКА ТОВАРОВ ----------
+    function renderNewProducts() {
+        const grid = document.getElementById('newProductsGrid');
+        if (!grid) return;
+        grid.innerHTML = newProducts.map(p => `
+            <div class="product-card"><div class="product-img">${p.img}</div><div class="product-info"><div class="product-title-wrapper"><div class="product-title">${p.name}</div><div class="product-brand">${p.brand} | ${p.specs}</div></div><div class="product-price">${p.price.toLocaleString()} ₽</div><button class="btn-add-to-cart" data-id="${p.id}">В корзину</button></div></div>
+        `).join('');
+        document.querySelectorAll('#newProductsGrid .btn-add-to-cart').forEach(btn => btn.addEventListener('click', () => addToCart(parseInt(btn.dataset.id))));
+    }
+    
+    let currentCategory = 'all';
+    
+    function renderCatalog() {
+        const grid = document.getElementById('catalogGrid');
+        const countSpan = document.getElementById('productsCount');
+        let filtered = currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory);
+        countSpan.innerText = `Показано: ${filtered.length} товаров`;
+        if (filtered.length === 0) { grid.innerHTML = '<div style="text-align:center;padding:3rem;color:#888;">Товаров в этой категории пока нет</div>'; return; }
+        grid.innerHTML = filtered.map(p => `
+            <div class="product-card"><div class="product-img">${p.img}</div><div class="product-info"><div class="product-title-wrapper"><div class="product-title">${p.name}</div><div class="product-brand">${p.brand} | ${p.specs}</div></div><div class="product-price">${p.price.toLocaleString()} ₽</div><button class="btn-add-to-cart" data-id="${p.id}">В корзину</button></div></div>
+        `).join('');
+        document.querySelectorAll('#catalogGrid .btn-add-to-cart').forEach(btn => btn.addEventListener('click', () => addToCart(parseInt(btn.dataset.id))));
+    }
+    
+    // ---------- НАВИГАЦИЯ МЕЖДУ СТРАНИЦАМИ ----------
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(`${pageId}Page`).classList.add('active');
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active-link'));
+        document.querySelector(`[data-page="${pageId}"]`).classList.add('active-link');
+        if (pageId === 'catalog') renderCatalog();
+    }
+    
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => { e.preventDefault(); showPage(link.dataset.page); });
+    });
+    
+    // ---------- ФИЛЬТРЫ КАТЕГОРИЙ ----------
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentCategory = btn.dataset.category;
+            renderCatalog();
+        });
+    });
+    
+    // ---------- МОДАЛЬНОЕ ОКНО КОРЗИНЫ ----------
+    const modal = document.getElementById('cartModal');
+    document.getElementById('cartIcon').addEventListener('click', () => modal.classList.add('active'));
+    document.getElementById('closeCartBtn').addEventListener('click', () => modal.classList.remove('active'));
+    document.getElementById('clearCartBtn').addEventListener('click', clearCart);
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
+    
+    // ---------- ОТПРАВКА ЗАЯВКИ НА УСТАНОВКУ ----------
+    window.sendInstallRequest = function() {
+        const name = document.getElementById('userName')?.value;
+        const phone = document.getElementById('userPhone')?.value;
+        if (!name || !phone) { showToast('❌ Заполните имя и телефон'); return; }
+        showToast(`✅ Спасибо, ${name}! Мы свяжемся с вами в ближайшее время`);
+        document.getElementById('userName').value = '';
+        document.getElementById('userPhone').value = '';
+        document.getElementById('userMessage').value = '';
+    };
+    
+    // ---------- ИНИЦИАЛИЗАЦИЯ ----------
+    renderNewProducts();
+    renderCatalog();
+    updateCartUI();
+</script>
 </body>
 </html>

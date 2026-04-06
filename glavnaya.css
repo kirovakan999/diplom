@@ -7,25 +7,24 @@
 
 body {
     font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-    background-color: #f8fafc;
-    color: #0f172a;
+    background-color: #0f0f0f;
+    color: #e0e0e0;
     line-height: 1.5;
 }
 
-/* Контейнер */
 .container {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 24px;
 }
 
-/* ---------- HEADER / НАВИГАЦИЯ ---------- */
+/* ---------- HEADER ---------- */
 .header {
-    background: #0b1120;
+    background: #0a0a0a;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid #2a2a2a;
 }
 
 .navbar {
@@ -40,7 +39,6 @@ body {
 .logo {
     font-size: 1.8rem;
     font-weight: 800;
-    letter-spacing: -0.5px;
     background: linear-gradient(135deg, #f59e0b, #f97316);
     background-clip: text;
     -webkit-background-clip: text;
@@ -55,33 +53,49 @@ body {
 }
 
 .nav-links a {
-    color: #e2e8f0;
+    color: #ccc;
     text-decoration: none;
     font-weight: 500;
-    font-size: 1rem;
-    transition: color 0.2s ease;
+    transition: color 0.2s;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active-link {
     color: #f97316;
 }
 
 .cart-icon {
-    background: #1e293b;
+    background: #1e1e1e;
     padding: 6px 18px;
     border-radius: 40px;
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #f1f5f9;
-    font-weight: 500;
-    cursor: default;
+    cursor: pointer;
+    border: 1px solid #333;
+    transition: all 0.2s;
 }
 
-/* ---------- HERO БАННЕР ---------- */
-.hero {
-    background: linear-gradient(105deg, #0a0f1c 0%, #111827 100%);
+.cart-icon:hover {
+    border-color: #f97316;
+}
+
+.cart-count {
+    background: #f97316;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
     color: white;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+    background: linear-gradient(105deg, #0a0a0a 0%, #1a1a1a 100%);
     padding: 3.5rem 0;
     border-radius: 0 0 2rem 2rem;
     margin-bottom: 3rem;
@@ -90,16 +104,13 @@ body {
 .hero-content h1 {
     font-size: 2.8rem;
     font-weight: 800;
-    line-height: 1.2;
     margin-bottom: 1rem;
-    letter-spacing: -0.02em;
 }
 
 .hero-content p {
     font-size: 1.2rem;
     max-width: 600px;
     opacity: 0.85;
-    margin-bottom: 1.5rem;
 }
 
 .hero-badge {
@@ -112,7 +123,7 @@ body {
     margin-bottom: 1rem;
 }
 
-/* ---------- СЕКЦИИ (общие) ---------- */
+/* ---------- СЕКЦИИ ---------- */
 section {
     margin: 4rem 0;
 }
@@ -136,39 +147,36 @@ section {
     border-radius: 4px;
 }
 
-/* ---------- КАРТОЧКИ ТОВАРОВ (ВСЕ ЦЕНЫ НА ОДНОМ УРОВНЕ) ---------- */
+/* ---------- КАРТОЧКИ ---------- */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
-    align-items: stretch;
 }
 
 .product-card {
-    background: #ffffff;
+    background: #1a1a1a;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: all 0.2s;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    border: 1px solid #2a2a2a;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+    border-color: #f97316;
 }
 
 .product-img {
     height: 180px;
-    background: #f1f5f9;
+    background: #111;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 4rem;
-    border-bottom: 1px solid #e2e8f0;
-    flex-shrink: 0;
+    border-bottom: 1px solid #2a2a2a;
 }
 
 .product-info {
@@ -178,7 +186,6 @@ section {
     flex-direction: column;
 }
 
-/* ФИКСИРОВАННАЯ ВЫСОТА ДЛЯ БЛОКА С НАЗВАНИЕМ - ЧТОБЫ ЦЕНА БЫЛА ВСЕГДА НА ОДНОМ УРОВНЕ */
 .product-title-wrapper {
     min-height: 70px;
     margin-bottom: 0.5rem;
@@ -187,57 +194,46 @@ section {
 .product-title {
     font-weight: 700;
     font-size: 1.1rem;
-    color: #0f172a;
+    color: #e0e0e0;
     line-height: 1.4;
 }
 
-.product-brand {
-    font-size: 0.85rem;
-    color: #64748b;
-    margin-top: 4px;
-}
-
-/* ЦЕНА - ОДИНАКОВАЯ ПОЗИЦИЯ ВО ВСЕХ КАРТОЧКАХ */
 .product-price {
-    color: #ea580c;
+    color: #f97316;
     font-weight: 800;
     font-size: 1.35rem;
     margin: 0.75rem 0;
 }
 
-.btn-dummy {
-    background: #0f172a;
+.btn-add-to-cart {
+    background: #f97316;
     color: white;
     border: none;
     padding: 0.7rem;
     border-radius: 40px;
     font-weight: 600;
-    font-size: 0.9rem;
-    width: 100%;
-    cursor: default;
-    text-align: center;
-    transition: background 0.2s;
+    cursor: pointer;
+    transition: all 0.2s;
     margin-top: auto;
 }
 
-/* ---------- БЛОК БИОГРАФИЯ ---------- */
+.btn-add-to-cart:hover {
+    background: #ea580c;
+    transform: translateY(-2px);
+}
+
+/* ---------- БИОГРАФИЯ ---------- */
 .bio-block {
-    background: #ffffff;
+    background: #1a1a1a;
     border-radius: 28px;
     padding: 2rem;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03);
-    margin-bottom: 2rem;
-    border: 1px solid #eef2ff;
+    border: 1px solid #2a2a2a;
 }
 
 .bio-text {
     font-size: 1.05rem;
     line-height: 1.6;
-    color: #1e293b;
-}
-
-.bio-text p {
-    margin-bottom: 1rem;
+    color: #ccc;
 }
 
 /* ---------- ПРЕИМУЩЕСТВА ---------- */
@@ -245,18 +241,21 @@ section {
     display: flex;
     flex-wrap: wrap;
     gap: 1.8rem;
-    justify-content: space-between;
-    margin: 2rem 0 1rem;
+    margin: 2rem 0;
 }
 
 .adv-item {
     flex: 1 1 200px;
-    background: #fff7ed;
+    background: #1a1a1a;
     border-radius: 24px;
-    padding: 1.5rem 1rem;
+    padding: 1.5rem;
     text-align: center;
+    border: 1px solid #2a2a2a;
     transition: all 0.2s;
-    border: 1px solid #ffedd5;
+}
+
+.adv-item:hover {
+    border-color: #f97316;
 }
 
 .adv-icon {
@@ -266,99 +265,40 @@ section {
 
 .adv-title {
     font-weight: 800;
-    font-size: 1.1rem;
     margin-bottom: 0.4rem;
-    color: #0c4a6e;
+    color: #f97316;
 }
 
 .adv-desc {
     font-size: 0.9rem;
-    color: #334155;
+    color: #888;
 }
 
 .company-quote {
-    background: #f0f9ff;
+    background: #1a1a1a;
     padding: 1.3rem;
     border-radius: 28px;
-    margin-top: 1.5rem;
     border-left: 5px solid #f97316;
 }
 
 /* ---------- FOOTER ---------- */
 .footer {
-    background: #0b1120;
-    color: #94a3b8;
+    background: #0a0a0a;
     text-align: center;
-    padding: 2.5rem 1rem;
+    padding: 2.5rem;
     margin-top: 4rem;
-    border-radius: 2rem 2rem 0 0;
+    border-top: 1px solid #2a2a2a;
+    color: #888;
 }
 
-.footer p {
-    margin: 0.4rem 0;
+/* ---------- СТРАНИЦЫ ---------- */
+.page {
+    display: none;
 }
 
-/* ---------- АДАПТИВНОСТЬ ---------- */
-@media (max-width: 768px) {
-    .container {
-        padding: 0 20px;
-    }
-    .navbar {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .nav-links {
-        justify-content: center;
-        gap: 1.2rem;
-    }
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-    .hero-content p {
-        font-size: 1rem;
-    }
-    .section-title {
-        font-size: 1.6rem;
-    }
-    .products-grid {
-        gap: 1.2rem;
-    }
+.page.active {
+    display: block;
 }
 
-@media (max-width: 480px) {
-    .hero {
-        padding: 2rem 0;
-    }
-    .hero-content h1 {
-        font-size: 1.6rem;
-    }
-    .section-title {
-        font-size: 1.4rem;
-    }
-    .bio-block {
-        padding: 1.2rem;
-    }
-    .adv-item {
-        flex-basis: 100%;
-    }
-    .product-img {
-        height: 150px;
-        font-size: 3rem;
-    }
-    .product-title-wrapper {
-        min-height: 60px;
-    }
-}
-
-@media (max-width: 320px) {
-    .container {
-        padding: 0 12px;
-    }
-    .product-title {
-        font-size: 1rem;
-    }
-    .product-title-wrapper {
-        min-height: 55px;
-    }
-}
+/* ---------- АДАПТИВ ---------- */
+@media (max-width:      
